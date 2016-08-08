@@ -1,5 +1,7 @@
-html2text [![Build Status](https://travis-ci.org/soundasleep/html2text.svg?branch=master)](https://travis-ci.org/soundasleep/html2text) [![Total Downloads](https://poser.pugx.org/soundasleep/html2text/downloads.png)](https://packagist.org/packages/soundasleep/html2text)
+html2text [![Build Status](https://api.travis-ci.org/denpamusic/html2text.svg?branch=master)](https://api.travis-ci.org/denpamusic/html2text.svg) [![Total Downloads](https://poser.pugx.org/soundasleep/html2text/downloads.png)](https://packagist.org/packages/soundasleep/html2text)
 =========
+
+*This is PHP 5.2 compatible fork*
 
 html2text is a very simple script that uses PHP's DOM methods to load from HTML, and then iterates over the resulting DOM to correctly output plain text. For example:
 

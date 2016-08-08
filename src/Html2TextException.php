@@ -16,9 +16,7 @@
  *    Jevon Wright - initial API and implementation
  ****************************************************************************/
 
-namespace Html2Text;
-
-class Html2TextException extends \Exception {
+class Html2TextException extends Exception {
 	var $more_info;
 
 	public function __construct($message = "", $more_info = "") {

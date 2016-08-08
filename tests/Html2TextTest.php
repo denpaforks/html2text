@@ -6,9 +6,9 @@ class Html2TextTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(file_exists(__DIR__ . "/$test.html"), "File '$test.html' did not exist");
 		$this->assertTrue(file_exists(__DIR__ . "/$test.txt"), "File '$test.txt' did not exist");
 		$input = file_get_contents(__DIR__ . "/$test.html");
-		$expected = Html2Text\Html2Text::fixNewlines(file_get_contents(__DIR__ . "/$test.txt"));
+		$expected = Html2Text::fixNewlines(file_get_contents(__DIR__ . "/$test.txt"));
 
-		$output = Html2Text\Html2Text::convert($input);
+		$output = Html2Text::convert($input);
 
 		if ($output != $expected) {
 			file_put_contents(__DIR__ . "/$test.output", $output);

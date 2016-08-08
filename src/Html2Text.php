@@ -15,8 +15,6 @@
  *    Jevon Wright - initial API and implementation
  ****************************************************************************/
 
-namespace Html2Text;
-
 class Html2Text {
 
 	/**
@@ -38,27 +36,27 @@ class Html2Text {
 		$html = str_replace("&nbsp;", " ", $html);
 		$html = str_replace("\xc2\xa0", " ", $html);
 
-		if (static::isOfficeDocument($html)) {
+		if (self::isOfficeDocument($html)) {
 			// remove office namespace
 			$html = str_replace(array("<o:p>", "</o:p>"), "", $html);
 		}
 
-		$html = static::fixNewlines($html);
+		$html = self::fixNewlines($html);
 		if (mb_detect_encoding($html, "UTF-8", true)) {
 			$html = mb_convert_encoding($html, "HTML-ENTITIES", "UTF-8");
 		}
 
-		$doc = new \DOMDocument();
+		$doc = new DOMDocument();
 		if (!$doc->loadHTML($html)) {
 			throw new Html2TextException("Could not load HTML - badly formed?", $html);
 		}
 
-		if (static::isOfficeDocument($html)) {
+		if (self::isOfficeDocument($html)) {
 			// remove office namespace
-			$doc = static::fixMSEncoding($doc);
+			$doc = self::fixMSEncoding($doc);
 		}
 
-		$output = static::iterateOverNode($doc);
+		$output = self::iterateOverNode($doc);
 
 		// remove leading and trailing spaces on each line
 		$output = preg_replace("/[ \t]*\n[ \t]*/im", "\n", $output);
@@ -131,13 +129,13 @@ class Html2Text {
 		// get the next child
 		$nextNode = $node->nextSibling;
 		while ($nextNode != null) {
-			if ($nextNode instanceof \DOMElement) {
+			if ($nextNode instanceof DOMElement) {
 				break;
 			}
 			$nextNode = $nextNode->nextSibling;
 		}
 		$nextName = null;
-		if ($nextNode instanceof \DOMElement && $nextNode != null) {
+		if ($nextNode instanceof DOMElement && $nextNode != null) {
 			$nextName = strtolower($nextNode->nodeName);
 		}
 
@@ -148,13 +146,13 @@ class Html2Text {
 		// get the previous child
 		$nextNode = $node->previousSibling;
 		while ($nextNode != null) {
-			if ($nextNode instanceof \DOMElement) {
+			if ($nextNode instanceof DOMElement) {
 				break;
 			}
 			$nextNode = $nextNode->previousSibling;
 		}
 		$nextName = null;
-		if ($nextNode instanceof \DOMElement && $nextNode != null) {
+		if ($nextNode instanceof DOMElement && $nextNode != null) {
 			$nextName = strtolower($nextNode->nodeName);
 		}
 
@@ -162,17 +160,17 @@ class Html2Text {
 	}
 
 	static function iterateOverNode($node) {
-		if ($node instanceof \DOMText) {
+		if ($node instanceof DOMText) {
 		  // Replace whitespace characters with a space (equivilant to \s)
 			return preg_replace("/[\\t\\n\\f\\r ]+/im", " ", $node->wholeText);
 		}
-		if ($node instanceof \DOMDocumentType) {
+		if ($node instanceof DOMDocumentType) {
 			// ignore
 			return "";
 		}
 
-		$nextName = static::nextChildName($node);
-		$prevName = static::prevChildName($node);
+		$nextName = self::nextChildName($node);
+		$prevName = self::prevChildName($node);
 
 		$name = strtolower($node->nodeName);
 
@@ -231,7 +229,7 @@ class Html2Text {
 			for ($i = 0; $i < $node->childNodes->length; $i++) {
 				$n = $node->childNodes->item($i);
 
-				$text = static::iterateOverNode($n);
+				$text = self::iterateOverNode($n);
 
 				$output .= $text;
 			}

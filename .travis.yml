@@ -3,8 +3,10 @@ php:
   - 5.2
 group: stable
 before_install:
+  - phpenv global 5.3
   - composer self-update
 install:
   - composer install
+  - phpenv global "$TRAVIS_PHP_VERSION"
 script:
   - ./vendor/bin/phpunit
